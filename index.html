@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroGallery - Curated Media Archive</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Immersive Splash Welcome Screen (Pivoted from Music Player Splash Screen) -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-stars-bg"></div>
+        <div class="splash-content">
+            <div class="splash-logo-container">
+                <div class="splash-logo-circle">
+                    <i class="fa-solid fa-camera-retro splash-logo-icon"></i>
+                </div>
+            </div>
+            
+            <h1 class="splash-title">AEROGALLERY</h1>
+            <p class="splash-subtitle">Curated High-Definition Media Archive</p>
+            
+            <button class="btn-splash-start" id="btn-splash-explore">
+                <span>Start Exploring</span> <i class="fa-solid fa-arrow-right-long"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ambient Backgrounds -->
+    <div class="ambient-glow"></div>
+    <div class="stars-bg"></div>
+
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="glass-nav">
+            <div class="nav-left">
+                <i class="fa-solid fa-camera-retro brand-icon"></i>
+                <span class="brand-logo">AeroGallery</span>
+            </div>
+            
+            <div class="nav-center">
+                <a href="#" class="nav-link active" id="btn-home" title="Gallery Home"><i class="fa-solid fa-images"></i> Grid</a>
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search by name, camera, or tag...">
+                </div>
+                <a href="#" class="nav-link" id="btn-favorites" title="My Collection"><i class="fa-solid fa-bookmark"></i> Saved</a>
+            </div>
+
+            <div class="nav-right">
+                <button class="btn-primary" id="btn-add-media">
+                    <i class="fa-solid fa-plus"></i> Import Image
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Filter, Sort and Grid Layout Control Section -->
+            <section class="gallery-controls-section">
+                <div class="filter-chips">
+                    <button class="chip active" data-category="all">All Captures</button>
+                    <button class="chip" data-category="nature">Nature & Landscapes</button>
+                    <button class="chip" data-category="animal">Wildlife & Animals</button>
+                    <button class="chip" data-category="food">Culinary & Food</button>
+                    <button class="chip" data-category="space">Cosmos & Space</button>
+                </div>
+
+                <div class="sort-layout-bar">
+                    <!-- Sort Selection Options -->
+                    <div class="sort-wrapper">
+                        <i class="fa-solid fa-arrow-down-wide-short sort-icon"></i>
+                        <select id="sort-select" title="Sort Captures">
+                            <option value="default">Default Order</option>
+                            <option value="name-asc">Title (A - Z)</option>
+                            <option value="name-desc">Title (Z - A)</option>
+                            <option value="date-newest">Date (Newest First)</option>
+                        </select>
+                    </div>
+
+                    <!-- Layout Grid View Selector Toggles -->
+                    <div class="layout-toggle-group">
+                        <button class="layout-btn active" id="btn-layout-cozy" title="Cozy Grid (3 Columns)"><i class="fa-solid fa-grip"></i></button>
+                        <button class="layout-btn" id="btn-layout-compact" title="Compact Grid (4 Columns)"><i class="fa-solid fa-grip-vertical"></i></button>
+                        <button class="layout-btn" id="btn-layout-masonry" title="Masonry Grid"><i class="fa-solid fa-cubes"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Primary Showcase Grid -->
+            <section class="gallery-section">
+                <div class="gallery-grid grid-layout-cozy" id="main-gallery-grid">
+                    <!-- Loaded dynamically -->
+                </div>
+            </section>
+        </main>
+
+
+    </div>
+
+    <!-- Cinematic Image Lightbox Modal -->
+    <div class="modal-backdrop" id="lightbox-modal">
+        <div class="modal-container glass-modal cinematic-modal">
+            <button class="modal-close" id="btn-close-lightbox"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="lightbox-content">
+                <div class="lightbox-media-side">
+                    <img id="lightbox-img" class="filter-default" src="" alt="Capture">
+                    
+                    <!-- Film Preset Real-time CSS Filter Panel -->
+                    <div class="film-presets-panel">
+                        <button class="preset-filter-btn active" data-filter="default">Normal</button>
+                        <button class="preset-filter-btn" data-filter="bw">B&W</button>
+                        <button class="preset-filter-btn" data-filter="warm">Warm Film</button>
+                        <button class="preset-filter-btn" data-filter="neon">Cyber Neon</button>
+                        <button class="preset-filter-btn" data-filter="astro">Astro-Glow</button>
+                    </div>
+                </div>
+                
+                <div class="lightbox-info-side">
+                    <div class="lightbox-header">
+                        <div class="gallery-source-tag">
+                            <i class="fa-solid fa-camera"></i>
+                            <span id="lightbox-telescope-brand">Sony Alpha ILCE-7RM4</span>
+                        </div>
+                        <button class="btn-save-post" id="lightbox-save-btn">
+                            <i class="fa-regular fa-bookmark"></i> Save
+                        </button>
+                    </div>
+
+                    <div class="lightbox-body">
+                        <h2 id="lightbox-title">Image Title</h2>
+                        <div class="meta-tags">
+                            <span class="tag-badge" id="lightbox-category">Nature</span>
+                            <span class="tag-badge resolution-tag" id="lightbox-resolution"><i class="fa-solid fa-crop-simple"></i> 3840 x 2160</span>
+                        </div>
+                        <p id="lightbox-desc">Detailed capture description...</p>
+                    </div>
+
+                    <!-- Technical Capture Specs Grid -->
+                    <div class="technical-specs-container">
+                        <h3>Capture Technical Metadata</h3>
+                        <table class="specs-table">
+                            <tr>
+                                <td><i class="fa-solid fa-camera-retro"></i> Equipment / Lens</td>
+                                <td id="spec-instrument">FE 24-70mm F2.8 GM</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-hourglass-half"></i> Shutter Speed</td>
+                                <td id="spec-exposure">1/125s &bull; f/8.0 &bull; ISO 100</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-location-dot"></i> Location / Origin</td>
+                                <td id="spec-distance">Yosemite National Park, USA</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-calendar-days"></i> Catalog Date</td>
+                                <td id="spec-date">October 12, 2024</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Actions Panel -->
+                    <div class="lightbox-actions-panel">
+                        <a href="#" id="btn-download-highres" class="btn-download" download>
+                            <i class="fa-solid fa-download"></i> Download Full Resolution (4K)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slideshow Fullscreen Overlay -->
+    <div class="slideshow-overlay" id="slideshow-overlay">
+        <!-- Exit and Directional navigations -->
+        <button class="slideshow-exit" id="btn-exit-slideshow"><i class="fa-solid fa-xmark"></i> Close</button>
+        <button class="slideshow-nav prev" id="btn-slideshow-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="slideshow-nav next" id="btn-slideshow-next"><i class="fa-solid fa-chevron-right"></i></button>
+        
+        <div class="slideshow-media-container">
+            <img id="slideshow-img" src="" alt="Slideshow Image">
+            
+            <div class="slideshow-info">
+                <h2 id="slideshow-title">Slideshow Post Title</h2>
+                <p id="slideshow-meta">Camera Brand &bull; Category</p>
+            </div>
+
+            <!-- Slideshow Speed & Play/Pause Controls Bar -->
+            <div class="slideshow-controls-bar">
+                <button class="slideshow-control-btn" id="btn-slideshow-playpause" title="Play/Pause (Spacebar)">
+                    <i class="fa-solid fa-pause"></i>
+                </button>
+                <div class="speed-selector">
+                    <span class="speed-label">Cycle Speed:</span>
+                    <button class="speed-btn" data-speed="2000">2s</button>
+                    <button class="speed-btn active" data-speed="4000">4s</button>
+                    <button class="speed-btn" data-speed="8000">8s</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slideshow-progress-bar">
+            <div class="progress-fill" id="slideshow-progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Import / Add Image Modal -->
+    <div class="modal-backdrop" id="add-media-modal">
+        <div class="modal-container glass-modal create-post-modal">
+            <button class="modal-close" id="btn-close-add-media"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Import Image to Archive</h2>
+            <p class="modal-subtitle">Add a high-resolution file with camera metadata details</p>
+
+            <form id="add-media-form">
+                <div class="form-group">
+                    <label for="post-title">Image Title</label>
+                    <input type="text" id="post-title" required placeholder="e.g., Mount Fitz Roy Sunrise">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-category">Category / Album</label>
+                        <select id="post-category" required>
+                            <option value="nature">Nature & Landscapes</option>
+                            <option value="animal">Wildlife & Animals</option>
+                            <option value="food">Culinary & Food</option>
+                            <option value="space">Cosmos & Space</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-resolution">Target Resolution</label>
+                        <input type="text" id="post-resolution" required placeholder="e.g., 3840 x 2160">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="post-instrument">Equipment / Camera</label>
+                        <input type="text" id="post-instrument" required placeholder="e.g., Sony A7R IV">
+                    </div>
+                    <div class="form-group">
+                        <label for="post-distance">Location / Origin</label>
+                        <input type="text" id="post-distance" required placeholder="e.g., Patagonia, Argentina">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-image-url">Image URL</label>
+                    <input type="url" id="post-image-url" required placeholder="https://images.unsplash.com/photo-...">
+                    <div class="preset-suggestions">
+                        <span>Or select a preset:</span>
+                        <div class="presets-row">
+                            <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800">Mountain Forest</button>
+                            <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&q=80&w=800">Lion Safari</button>
+                            <button type="button" class="preset-btn" data-url="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=800">Fresh Berry Tart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-desc">Observation Summary</label>
+                    <textarea id="post-desc" required placeholder="Summarize shot location details, weather, gear settings..." rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-post">Record Image in Index</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
